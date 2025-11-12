@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merco | Agência de Software</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050816;
+      --card: rgba(16, 18, 37, 0.85);
+      --card-light: rgba(255, 255, 255, 0.04);
+      --text: #f8fbff;
+      --muted: rgba(248, 251, 255, 0.7);
+      --accent: #7cf4c4;
+      --accent-2: #0085ff;
+      --accent-3: #ff8de3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      overflow: hidden;
+      background: radial-gradient(circle at top right, rgba(0, 133, 255, 0.25), transparent 45%), radial-gradient(circle at 20% 20%, rgba(124, 244, 196, 0.2), transparent 40%);
+    }
+
+    .page::after {
+      content: "";
+      position: absolute;
+      inset: 20% auto auto 60%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(124, 244, 196, 0.25), transparent 60%);
+      filter: blur(40px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .logo {
+      font-family: "Space Grotesk", "Inter", sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-cta {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0.65rem 1.4rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .btn-outline {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent-2), var(--accent));
+      color: #041426;
+      box-shadow: 0 10px 30px rgba(0, 133, 255, 0.35);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 15px 35px rgba(0, 133, 255, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tag span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      margin: 0.8rem 0;
+      line-height: 1.1;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+    }
+
+    h1 strong {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 32rem;
+    }
+
+    .hero-actions {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      padding: 1rem 1.2rem;
+      border-radius: 1rem;
+      background: var(--card);
+      border: 1px solid rgba(124, 244, 196, 0.1);
+    }
+
+    .stat-card h3 {
+      margin: 0;
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .stat-card p {
+      margin: 0.2rem 0 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      background: var(--card-light);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      overflow: hidden;
+    }
+
+    .hero-visual::after {
+      content: "";
+      position: absolute;
+      inset: auto 10% -60px auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255, 141, 227, 0.4), transparent 65%);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .hero-card {
+      padding: 1.3rem;
+      border-radius: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 8, 22, 0.65);
+    }
+
+    .hero-card small {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-size: 0.7rem;
+    }
+
+    .hero-card strong {
+      font-size: 1.4rem;
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .hero-progress {
+      margin-top: 1rem;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .hero-progress span {
+      display: block;
+      height: 100%;
+      width: 78%;
+      border-radius: 999px;
+      background: linear-gradient(120deg, var(--accent-3), var(--accent-2));
+    }
+
+    section {
+      margin-top: 4rem;
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      background: rgba(7, 10, 28, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    section header {
+      margin-bottom: 2rem;
+      gap: 0.5rem;
+    }
+
+    section h2 {
+      margin: 0;
+      font-size: 2rem;
+      font-family: "Space Grotesk", "Inter", sans-serif;
+    }
+
+    section p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 46rem;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      padding: 1.5rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      min-height: 200px;
+    }
+
+    .card h3 {
+      margin: 0.5rem 0;
+      font-size: 1.2rem;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      background: rgba(0, 133, 255, 0.15);
+      color: var(--accent-2);
+    }
+
+    .cases {
+      background: linear-gradient(135deg, rgba(124, 244, 196, 0.08), rgba(0, 133, 255, 0.08));
+    }
+
+    .case-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .case-card strong {
+      font-size: 1.5rem;
+    }
+
+    .case-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .process-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.25rem;
+      counter-reset: step;
+    }
+
+    .process-item {
+      padding: 1.3rem;
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(5, 8, 22, 0.4);
+      position: relative;
+      padding-left: 3.5rem;
+    }
+
+    .process-item::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      left: 1.2rem;
+      top: 1.2rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+      background: rgba(124, 244, 196, 0.15);
+      border: 1px solid rgba(124, 244, 196, 0.4);
+      display: grid;
+      place-items: center;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .cta {
+      text-align: center;
+      background: linear-gradient(120deg, rgba(0, 133, 255, 0.25), rgba(124, 244, 196, 0.25));
+    }
+
+    .cta h2 {
+      font-size: 2.4rem;
+    }
+
+    .cta p {
+      margin: 1rem auto 2rem;
+      max-width: 40rem;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    @media (max-width: 900px) {
+      .nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      section {
+        padding: 1.8rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-cta {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-visual {
+        padding: 1.6rem;
+      }
+
+      .stats {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      }
+
+      .process-item {
+        padding-left: 3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="shell">
+      <header>
+        <nav class="nav">
+          <div class="logo">MERCO</div>
+          <ul class="nav-links">
+            <li><a href="#servicos">Soluções</a></li>
+            <li><a href="#cases">Cases</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="#processo">Processo</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+          <div class="nav-cta">
+            <button class="btn btn-outline">Portfólio</button>
+            <button class="btn btn-primary">Fale com especialistas</button>
+          </div>
+        </nav>
+        <div class="hero">
+          <div>
+            <div class="tag"><span></span> Agência de produto digital</div>
+            <h1>Software sob medida para marcas que querem <strong>crescer agora</strong>.</h1>
+            <p>Na Merco, combinamos estratégia, design e engenharia para criar produtos digitais que destravam novas receitas e encantam clientes em qualquer dispositivo.</p>
+            <div class="hero-actions">
+              <button class="btn btn-primary">Planejar meu projeto</button>
+              <button class="btn btn-outline">Ver metodologia</button>
+            </div>
+            <div class="stats">
+              <div class="stat-card">
+                <h3>+140</h3>
+                <p>Produtos lançados em 8 países</p>
+              </div>
+              <div class="stat-card">
+                <h3>28%</h3>
+                <p>crescimento médio de receita por cliente</p>
+              </div>
+              <div class="stat-card">
+                <h3>5.0</h3>
+                <p>CSAT em squads dedicadas</p>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <div class="hero-grid">
+              <div class="hero-card">
+                <small>Roadmap 2025</small>
+                <strong>Sprint 06 • Live</strong>
+                <p>Checkout omnichannel com IA generativa.</p>
+                <div class="hero-progress"><span></span></div>
+              </div>
+              <div class="hero-card">
+                <small>KPIs monitorados</small>
+                <strong>+62% engajamento</strong>
+                <p>Com Squad Merco for Growth.</p>
+              </div>
+              <div class="hero-card">
+                <small>Stack sugerida</small>
+                <strong>React • Nest • Supabase</strong>
+                <p>Infra escalável com segurança enterprise.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section id="servicos">
+        <header>
+          <div class="tag"><span></span> Soluções Merco</div>
+          <h2>Da visão ao deploy sem ruído</h2>
+          <p>Nossos squads cobrem estratégia, design, engenharia e governança de produto para acelerar resultados sem inflar seu time interno.</p>
+        </header>
+        <div class="cards-grid">
+          <div class="card">
+            <div class="pill">Discovery</div>
+            <h3>Product Design Studio</h3>
+            <p>Workshops, protótipos navegáveis e validação com usuários reais em menos de 3 semanas.</p>
+          </div>
+          <div class="card">
+            <div class="pill" style="background:rgba(124,244,196,0.2);color:var(--accent);">Build</div>
+            <h3>Squads Ágeis Dedicadas</h3>
+            <p>Time completo com tech lead, UX, QA e dados entregando ciclos quinzenais com métricas claras.</p>
+          </div>
+          <div class="card">
+            <div class="pill" style="background:rgba(255,141,227,0.2);color:var(--accent-3);">Scale</div>
+            <h3>Platform Care</h3>
+            <p>SLA 24/7, otimização contínua e métricas de produto conectadas ao seu CRM.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="cases" class="cases">
+        <header>
+          <div class="tag"><span></span> Estudos de caso</div>
+          <h2>Resultados que falam alto</h2>
+          <p>Selecionamos alguns dos impactos que geramos em diferentes segmentos.</p>
+        </header>
+        <div class="cards-grid">
+          <div class="card case-card">
+            <strong>Banco Atlas</strong>
+            <p>Aplicativo de investimentos refeito do zero com onboarding personalizado. NPS saltou de 34 para 71.</p>
+            <div class="case-meta">
+              <span>12 semanas</span>
+              <span>+180k usuários</span>
+            </div>
+          </div>
+          <div class="card case-card">
+            <strong>Varejo Norte</strong>
+            <p>Plataforma de logística inteligente com previsão de demanda. Redução de 22% em rupturas.</p>
+            <div class="case-meta">
+              <span>8 semanas</span>
+              <span>18 lojas</span>
+            </div>
+          </div>
+          <div class="card case-card">
+            <strong>Saúde Viva</strong>
+            <p>Portal omnichannel para pacientes crônicos com IA de recomendações. Engajamento 3x maior.</p>
+            <div class="case-meta">
+              <span>16 semanas</span>
+              <span>+3 países</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="processo">
+        <header>
+          <div class="tag"><span></span> Como trabalhamos</div>
+          <h2>Transparência e ritmo de produto</h2>
+          <p>Operamos com métricas e rituais claros para que você acompanhe cada sprint sem surpresas.</p>
+        </header>
+        <div class="process-list">
+          <div class="process-item">
+            <h3>Imersão orientada a dados</h3>
+            <p>Business goals, métricas de sucesso e mapa de stakeholders alinhados na primeira semana.</p>
+          </div>
+          <div class="process-item">
+            <h3>Blueprint & prototipação</h3>
+            <p>Flows de alta fidelidade, backlog priorizado e arquitetura validada antes da primeira linha de código.</p>
+          </div>
+          <div class="process-item">
+            <h3>Sprints com entrega contínua</h3>
+            <p>Ciclos de 2 semanas com demos gravadas, release notes e painel de KPIs em tempo real.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="contato" class="cta">
+        <div class="tag"><span></span> Vamos juntos</div>
+        <h2>Pronto para prototipar o futuro da sua empresa?</h2>
+        <p>Conte pra gente onde você quer chegar. Em 48h apresentamos um plano com roadmap, estimativa e time ideal.</p>
+        <div class="hero-actions" style="justify-content:center;">
+          <button class="btn btn-primary">Agendar diagnóstico</button>
+          <button class="btn btn-outline">Baixar one-pager</button>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> Merco. Transformando desafios complexos em software memorável.
+        <br>
+        <a href="mailto:contato@merco.software">contato@merco.software</a> • +55 11 4000-2000
+      </footer>
+    </div>
+  </div>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>
